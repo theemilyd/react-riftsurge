@@ -1,6 +1,10 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import { cn } from './lib/utils'
+
+// Make the cn function available globally as it's referenced in global.d.ts
+window.cn = cn;
 
 // Add console logs for debugging on Vercel
 console.log('App initializing...');
