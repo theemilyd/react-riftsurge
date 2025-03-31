@@ -13,17 +13,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'dist',
       sourcemap: mode === 'development',
-      // Simplified chunk configuration that won't cause errors
-      rollupOptions: {
-        output: {
-          manualChunks: (id) => {
-            // Create a vendor chunk for node_modules
-            if (id.includes('node_modules')) {
-              return 'vendor';
-            }
-          }
-        },
-      },
+      // No manual chunks to avoid any directory read errors
     },
     
     // Development server settings
