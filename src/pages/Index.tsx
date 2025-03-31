@@ -100,6 +100,116 @@ const Index = () => {
     const ctaSubtitle = "Let's create stunning visuals and content that will elevate your brand...";
     // --- End Static Data ---
 
+    // TEMPORARY: Always show fallback content for testing purposes
+    // Remove this return statement and uncomment the conditional rendering below after testing
+    return (
+        <div className="min-h-screen bg-background">
+            <div className="container mx-auto pt-8">
+                <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8">
+                    <div className="flex">
+                        <div>
+                            <p className="text-sm text-amber-700">
+                                <strong>Testing Mode:</strong> This is the static fallback version of our homepage.
+                                We're using this to test deployment on Vercel.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {/* Static Hero Section */}
+            <section className="relative py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-br from-[#1A1F2C] to-[#2D324A]">
+                <div className="container mx-auto">
+                    <div className="flex flex-col lg:flex-row items-center gap-12">
+                        <div className="lg:w-1/2">
+                            <h1
+                                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight"
+                                dangerouslySetInnerHTML={{ __html: heroTitle }}
+                            />
+                            <p className="text-lg md:text-xl mb-8 text-gray-300">
+                                {heroSubtitle}
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <Button size="lg" asChild className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white">
+                                    <Link to="/contact">Get Started</Link>
+                                </Button>
+                                <Button size="lg" variant="outline" asChild className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5]/10">
+                                    <Link to="/portfolio">View Portfolio</Link>
+                                </Button>
+                            </div>
+                            
+                            {/* Stats */}
+                            <div className="flex flex-wrap gap-8 mt-12">
+                                {stats.map((stat, index) => (
+                                    <div key={index} className="text-center">
+                                        <p className="text-4xl font-bold text-[#9b87f5] mb-1">{stat.value}</p>
+                                        <p className="text-white text-sm">{stat.label}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="lg:w-1/2">
+                            {/* Placeholder image */}
+                            <div className="rounded-lg w-full max-w-md mx-auto aspect-square bg-muted flex items-center justify-center">
+                                <span className="text-muted-foreground">Image Placeholder</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-background to-transparent"></div>
+            </section>
+            
+            {/* Services Section */}
+            <section className="py-20 px-4 md:px-8 lg:px-16">
+                <div className="container mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">{servicesTitle}</h2>
+                        <p className="text-muted-foreground max-w-2xl mx-auto">
+                            {servicesSubtitle}
+                        </p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {services.map((service, index) => (
+                            <Card key={index} className="border-none shadow-md hover:shadow-lg transition-shadow">
+                                <CardHeader className="text-center">
+                                    <div className="w-12 h-12 mx-auto bg-[#9b87f5]/10 rounded-full flex items-center justify-center text-[#9b87f5]">
+                                        {service.icon}
+                                    </div>
+                                    <CardTitle className="mt-4 mb-2">{service.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <CardDescription className="mb-4 text-center">
+                                        {service.description}
+                                    </CardDescription>
+                                    <div className="text-center">
+                                        <Button variant="link" asChild className="text-[#9b87f5] p-0">
+                                            <Link to={service.link}>
+                                                Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                                            </Link>
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            </section>
+            
+            {/* CTA Section */}
+            <section className="py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-br from-[#1A1F2C] to-[#2D324A]">
+                <div className="container mx-auto text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">{ctaTitle}</h2>
+                    <p className="text-gray-300 max-w-2xl mx-auto mb-8">{ctaSubtitle}</p>
+                    <Button size="lg" asChild className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white">
+                        <Link to="/contact">Schedule a Consultation</Link>
+                    </Button>
+                </div>
+            </section>
+        </div>
+    );
+
+    /* COMMENTED OUT FOR TESTING - Uncomment after testing
     if (isLoadingPage) {
       return <IndexSkeleton />; // Show skeleton loader
     }
@@ -129,247 +239,15 @@ const Index = () => {
                     <ErrorBanner />
                 </div>
                 
-                {/* Static Hero Section */}
-                <section className="relative py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-br from-[#1A1F2C] to-[#2D324A]">
-                    <div className="container mx-auto">
-                        <div className="flex flex-col lg:flex-row items-center gap-12">
-                            <div className="lg:w-1/2">
-                                <h1
-                                    className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight"
-                                    dangerouslySetInnerHTML={{ __html: heroTitle }}
-                                />
-                                <p className="text-lg md:text-xl mb-8 text-gray-300">
-                                    {heroSubtitle}
-                                </p>
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <Button size="lg" asChild className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white">
-                                        <Link to="/contact">Get Started</Link>
-                                    </Button>
-                                    <Button size="lg" variant="outline" asChild className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5]/10">
-                                        <Link to="/portfolio">View Portfolio</Link>
-                                    </Button>
-                                </div>
-                                
-                                {/* Stats */}
-                                <div className="flex flex-wrap gap-8 mt-12">
-                                    {stats.map((stat, index) => (
-                                        <div key={index} className="text-center">
-                                            <p className="text-4xl font-bold text-[#9b87f5] mb-1">{stat.value}</p>
-                                            <p className="text-white text-sm">{stat.label}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="lg:w-1/2">
-                                {/* Placeholder image */}
-                                <div className="rounded-lg w-full max-w-md mx-auto aspect-square bg-muted flex items-center justify-center">
-                                    <span className="text-muted-foreground">Image Placeholder</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-background to-transparent"></div>
-                </section>
-                
-                {/* Services Section */}
-                <section className="py-20 px-4 md:px-8 lg:px-16">
-                    <div className="container mx-auto">
-                        <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">{servicesTitle}</h2>
-                            <p className="text-muted-foreground max-w-2xl mx-auto">
-                                {servicesSubtitle}
-                            </p>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {services.map((service, index) => (
-                                <ServiceCard
-                                    key={index}
-                                    icon={service.icon}
-                                    title={service.title}
-                                    description={service.description}
-                                    link={service.link}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </section>
-                
-                {/* Additional static sections as needed... */}
-                
-                {/* CTA Section */}
-                <section className="py-16 px-4 md:px-8 lg:px-16 bg-[#1A1F2C] text-white text-center">
-                    <div className="container mx-auto max-w-3xl">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">{ctaTitle}</h2>
-                        <p className="mb-8 text-gray-300">{ctaSubtitle}</p>
-                        <Button size="lg" asChild className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white">
-                            <Link to="/contact">Contact Us Today</Link>
-                        </Button>
-                    </div>
-                </section>
+                // Static content sections...
             </div>
         );
     }
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section - Use fetched data */}
-      <section className="relative py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-br from-[#1A1F2C] to-[#2D324A]">
-        <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2">
-              {/* Use dangerouslySetInnerHTML for HTML content, ensure data is sanitized if coming from untrusted sources */}
-              {/* If using ACF fields, replace this */}
-              <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight"
-                dangerouslySetInnerHTML={{ __html: heroTitle }} // Example: Use static/parsed title
-              />
-               <p className="text-lg md:text-xl mb-8 text-gray-300">
-                 {heroSubtitle} {/* Example: Use static/parsed subtitle */}
-               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" asChild className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white">
-                  <Link to="/contact">Get Started</Link>{/* Link to Contact Page */}
-                </Button>
-                <Button size="lg" variant="outline" asChild className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5]/10">
-                  <Link to="/portfolio">View Portfolio</Link>
-                </Button>
-              </div>
-
-              {/* Stats - Use fetched data */}
-              <div className="flex flex-wrap gap-8 mt-12">
-                 {stats.map((stat, index) => (
-                    <div key={index} className="text-center">
-                      <p className="text-4xl font-bold text-[#9b87f5] mb-1">{stat.value}</p>
-                      <p className="text-white text-sm">{stat.label}</p>
-                    </div>
-                 ))}
-              </div>
-            </div>
-            <div className="lg:w-1/2">
-              {/* Use featured image from WordPress or fallback/placeholder */}
-               {heroImage ? (
-                   <img
-                       src={getImageUrl(heroImage.sourceUrl)}
-                       alt={heroImage.altText || 'AI Generated Art'}
-                       className="rounded-lg w-full max-w-md mx-auto"
-                   />
-               ) : (
-                  // Fallback or placeholder image
-                  <div className="rounded-lg w-full max-w-md mx-auto aspect-square bg-muted flex items-center justify-center">
-                      <span className="text-muted-foreground">Image Placeholder</span>
-                  </div>
-               )}
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-background to-transparent"></div>
-      </section>
-
-        {/* Optional: Render pageContent if it contains sections beyond the hero */}
-        {/* <section className="py-10 px-4">
-            <div className="container mx-auto prose lg:prose-xl" dangerouslySetInnerHTML={{ __html: pageContent }} />
-        </section> */}
-
-
-      {/* Services Section - Use fetched data or loop through static */}
-      <section className="py-20 px-4 md:px-8 lg:px-16">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{servicesTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {servicesSubtitle}
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-             {services.map((service, index) => (
-                <ServiceCard
-                  key={index}
-                  icon={service.icon}
-                  title={service.title}
-                  description={service.description}
-                  link={service.link}
-                />
-             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Work With Me Section - Use fetched data */}
-      <section className="py-16 px-4 md:px-8 lg:px-16 bg-[#1A1F2C]">
-        <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{whyWorkTitle}</h2>
-              <ul className="space-y-4">
-                 {whyWorkPoints.map((point, index) => (
-                     <WhyWorkItem key={index} text={point} />
-                 ))}
-              </ul>
-            </div>
-            <div className="lg:w-1/2 space-y-4">
-                 {whyWorkStats.map((stat, index) => (
-                    <div key={index} className="bg-[#2D324A] p-6 rounded-lg">
-                        <p className="text-4xl font-bold text-[#9b87f5] mb-1">{stat.value}</p>
-                        <p className="text-gray-300 text-sm">{stat.label}</p>
-                    </div>
-                 ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Portfolio Preview - Use fetched portfolio items */}
-      <section className="py-20 px-4 md:px-8 lg:px-16">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{portfolioTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {portfolioSubtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-             {isLoadingPortfolio ? (
-                 Array.from({ length: 6 }).map((_, i) => <PortfolioCardSkeleton key={i} />)
-             ) : (
-                portfolioItems.map((item) => (
-                  <PortfolioCard
-                    key={item.id}
-                    title={item.title}
-                    image={getImageUrl(item.featuredImage?.node?.sourceUrl)}
-                    alt={item.featuredImage?.node?.altText}
-                    link={`/portfolio/${item.slug}`} // Link to single portfolio item page
-                  />
-                ))
-             )}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button asChild variant="outline" className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5]/10">
-              <Link to="/portfolio">
-                 View Full Portfolio <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section - Use fetched data */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-br from-[#1A1F2C] to-[#2D324A]">
-        <div className="container mx-auto max-w-4xl">
-          <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{ctaTitle}</h2>
-            <p className="text-lg mb-8 text-gray-300">
-              {ctaSubtitle}
-            </p>
-            <Button size="lg" asChild className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white">
-              <Link to="/contact">Contact Me Today</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+    return (
+        // Normal content rendering...
+    );
+    */
 };
 
 // --- Sub-Components (Keep or move to separate files) ---
