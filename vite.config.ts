@@ -13,13 +13,15 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'dist',
       sourcemap: mode === 'development',
-      // Improve chunk splitting for better caching
+      // Simplified chunk configuration that won't cause errors
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom'],
-            ui: ['@/components/ui'],
-          },
+          manualChunks: (id) => {
+            // Create a vendor chunk for node_modules
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          }
         },
       },
     },
