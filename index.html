@@ -3,22 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>designify-theme-builder</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <title>RiftSurge - AI Powered Visuals</title>
+    <meta name="description" content="AI-powered visual design and content creation services" />
+    <meta name="author" content="Emily" />
 
-    <meta property="og:title" content="Lovable Generated Project" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <meta property="og:title" content="RiftSurge - AI Powered Visuals" />
+    <meta property="og:description" content="AI-powered visual design and content creation services" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <!-- Inline styles to ensure content visibility -->
+    <style>
+      body {
+        background-color: #f8f9fa;
+        color: #333;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      #root {
+        flex: 1;
+      }
+      #fallback {
+        display: none;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .loading-message {
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 1.2rem;
+        color: #666;
+      }
+    </style>
   </head>
 
   <body>
-    <div id="root"></div>
+    <!-- React root element -->
+    <div id="root">
+      <div class="loading-message">Loading application...</div>
+    </div>
+    
+    <!-- Fallback content if React fails to load -->
+    <div id="fallback">
+      <h1>RiftSurge - AI Powered Visuals</h1>
+      <p>Transform your brand with cutting-edge AI technology. Create stunning visuals, engaging content, and data-driven strategies that connect with your audience.</p>
+      <p>If you're seeing this message, we're experiencing technical difficulties. Please try refreshing the page or coming back later.</p>
+    </div>
+    
+    <!-- Script to show fallback content if React doesn't load within 5 seconds -->
+    <script>
+      // Show fallback content if React doesn't load within 5 seconds
+      setTimeout(function() {
+        if (!window.reactLoaded) {
+          document.getElementById('fallback').style.display = 'block';
+          console.error('React app failed to load within timeout period');
+        }
+      }, 5000);
+    </script>
+    
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>

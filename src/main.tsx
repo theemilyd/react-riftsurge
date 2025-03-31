@@ -17,8 +17,17 @@ try {
   const rootElement = document.getElementById("root");
   
   if (rootElement) {
+    // Remove loading message if present
+    const loadingMessage = rootElement.querySelector('.loading-message');
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
+    
     createRoot(rootElement).render(<App />);
     console.log('App rendered successfully');
+    
+    // Mark as loaded to prevent fallback from showing
+    window.reactLoaded = true;
   } else {
     console.error('Root element not found!');
     // Create a root element if it doesn't exist
@@ -27,6 +36,9 @@ try {
     document.body.appendChild(newRoot);
     createRoot(newRoot).render(<App />);
     console.log('Created new root element and rendered app');
+    
+    // Mark as loaded to prevent fallback from showing
+    window.reactLoaded = true;
   }
 } catch (error) {
   console.error('Error rendering app:', error);
