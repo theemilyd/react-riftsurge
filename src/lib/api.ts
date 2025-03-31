@@ -3,8 +3,25 @@ import { GraphQLClient } from 'graphql-request';
 // Ensure you have VITE_WORDPRESS_API_URL defined in your .env file
 // Example: VITE_WORDPRESS_API_URL="https://your-wordpress-site.com/graphql"
 const GQL_ENDPOINT = import.meta.env.VITE_WORDPRESS_API_URL;
+const USE_STATIC_FALLBACK = import.meta.env.VITE_USE_STATIC_FALLBACK === 'true';
 
-console.log("WordPress API URL:", GQL_ENDPOINT); // Debug log to show what URL is being used
+// For debugging in development
+if (import.meta.env.DEV) {
+  console.log("WordPress API URL:", GQL_ENDPOINT);
+  console.log("Using static fallback:", USE_STATIC_FALLBACK);
+}
+
+// Check if we're in a Vercel environment
+export const isVercelEnvironment = () => {
+  return typeof window !== 'undefined' && 
+         (window.location.hostname.includes('vercel.app') || 
+          import.meta.env.VITE_VERCEL_ENV);
+};
+
+// Detect if we should use the fallback content
+export const shouldUseFallback = () => {
+  return USE_STATIC_FALLBACK || isVercelEnvironment();
+};
 
 if (!GQL_ENDPOINT) {
   console.error(
@@ -20,6 +37,12 @@ export const gqlClient = new GraphQLClient(GQL_ENDPOINT || "");
 
 // Generic fetch function using the client
 export const fetchGraphQL = async <T = any>(query: string, variables?: Record<string, any>): Promise<T> => {
+  // If we're configured to use static fallback, reject the promise to trigger error handlers
+  if (shouldUseFallback()) {
+    console.log("Using static fallback content - skipping API fetch");
+    return Promise.reject("Using static fallback content");
+  }
+
   if (!GQL_ENDPOINT) {
      // Avoid making requests if the endpoint isn't configured
      console.error("GraphQL endpoint not configured. Skipping fetch.");
