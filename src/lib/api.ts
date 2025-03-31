@@ -4,6 +4,8 @@ import { GraphQLClient } from 'graphql-request';
 // Example: VITE_WORDPRESS_API_URL="https://your-wordpress-site.com/graphql"
 const GQL_ENDPOINT = import.meta.env.VITE_WORDPRESS_API_URL;
 
+console.log("WordPress API URL:", GQL_ENDPOINT); // Debug log to show what URL is being used
+
 if (!GQL_ENDPOINT) {
   console.error(
     "ERROR: VITE_WORDPRESS_API_URL is not defined in your environment variables."
@@ -25,10 +27,43 @@ export const fetchGraphQL = async <T = any>(query: string, variables?: Record<st
      return Promise.reject("GraphQL endpoint not configured.");
   }
   try {
-    return await gqlClient.request<T>(query, variables);
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] GraphQL request to: ${GQL_ENDPOINT}`);
+    console.log('Query:', query.substring(0, 50) + '...');
+    console.log('Variables:', JSON.stringify(variables));
+    
+    const response = await fetch(GQL_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`[${timestamp}] GraphQL error - Status: ${response.status}`, 
+                   `Text: ${errorText.substring(0, 200)}${errorText.length > 200 ? '...' : ''}`);
+      throw new Error(`GraphQL request failed with status ${response.status}: ${errorText}`);
+    }
+
+    const json = await response.json();
+
+    if (json.errors) {
+      console.error(`[${timestamp}] GraphQL response contained errors:`, json.errors);
+      throw new Error(`GraphQL errors: ${JSON.stringify(json.errors)}`);
+    }
+
+    console.log(`[${timestamp}] GraphQL request successful`);
+    return json.data as T;
   } catch (error) {
-    console.error("GraphQL request failed:", error);
-    // Rethrow or handle error as appropriate for your application
+    console.error('GraphQL fetch error:', error);
+    console.error('API URL:', GQL_ENDPOINT);
+    console.error('Environment:', import.meta.env.MODE);
+    console.error('User Agent:', navigator.userAgent);
     throw error;
   }
 };
@@ -52,7 +87,7 @@ export const getImageUrl = (sourceUrl?: string | null): string => {
     return sourceUrl;
   }
   // This assumes sourceUrl is a relative path from the WP root, adjust if needed
-  // return `${getWordPressUrl()}${sourceUrl}`;
+  return `${getWordPressUrl()}${sourceUrl}`;
   // Often, WPGraphQL returns absolute URLs for media items, so this might be sufficient:
-   return sourceUrl;
+  // return sourceUrl;
 };
